@@ -1,7 +1,7 @@
 ---
 name: schematize-seo-writing
 metadata:
-  version: 0.2.0
+  version: 0.3.0
 description: >-
   Redação SEO em 4 passos: outline, briefing, checklist de conexão e texto validado por checador. Use ao pedir artigo para ranquear ou content brief. Estratégia: schematize-seo.
 ---
@@ -14,7 +14,7 @@ por seção depois, conexão checada antes de escrever, e só então o texto —
 resposta no início. A tese: o texto ruim de SEO nasce de pular etapa (escrever sem estrutura, inventar
 fato para preencher seção). Aqui nenhuma etapa se pula, e **a máquina mede o resultado** antes da entrega.
 
-**Versão:** skill `schematize-seo-writing` v0.2.0. Changelog em `CHANGELOG.md`.
+**Versão:** skill `schematize-seo-writing` v0.3.0. Changelog em `CHANGELOG.md`.
 
 ## Precedência e herança (leia antes de divergir)
 

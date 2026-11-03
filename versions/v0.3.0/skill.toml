@@ -1,0 +1,12 @@
+slug = "seo-writing"
+name = "schematize-seo-writing"
+tag = "SEO · redação"
+status = "beta"
+order = 36
+current_version = "0.3.0"
+href = "/seo-writing"
+
+[descriptions]
+pt = "Redação SEO em 4 passos obrigatórios: estrutura hierárquica (title, H1, H2, H3, keywords secundárias), briefings derivados só dos títulos anteriores, checklist de conexão e texto em parágrafos curtos com resposta direta no início. Um checador executável mede o texto antes da entrega."
+en = "SEO writing in 4 mandatory steps: hierarchical structure (title, H1, H2, H3, secondary keywords), briefs derived only from preceding headings, a connection checklist, and short-paragraph copy that answers first. An executable checker measures the text before delivery."
+es = "Redacción SEO en 4 pasos obligatorios: estructura jerárquica (title, H1, H2, H3, keywords secundarias), briefings derivados solo de los títulos anteriores, checklist de conexión y texto en párrafos cortos con respuesta directa al inicio. Un verificador ejecutable mide el texto antes de entregarlo."
