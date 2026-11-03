@@ -24,9 +24,9 @@ schematize install seo-writing    # requer o CLI schematize instalado
 ### Manual
 
 ```bash
-git clone https://github.com/schematizeme/skill-seo-writing.git /tmp/skill-seo-writing
-bash /tmp/skill-seo-writing/install.sh .        # instala em .claude/ do projeto atual
-bash /tmp/skill-seo-writing/install.sh "$HOME"  # ou globalmente
+git clone https://github.com/schematizeme/skill-seo-writing.git $HOME/.cache/skill-seo-writing
+bash $HOME/.cache/skill-seo-writing/install.sh .        # instala em .claude/ do projeto atual
+bash $HOME/.cache/skill-seo-writing/install.sh "$HOME"  # ou globalmente
 ```
 
 ## Comandos

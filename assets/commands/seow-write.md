@@ -11,12 +11,12 @@ Escreva o texto SEO de $ARGUMENTS no **modo completo**. Leia antes `references/p
    mapeadas aos Hs.
 2. **Briefings:** um por seção, só dos Hs anteriores, até 150 palavras, 7 campos fixos.
 3. **Checklist de conexão:** mostre-o marcado, com evidência. Aberto: corrija antes de seguir.
-4. **Conteúdo:** uma seção por vez, só com o briefing dela. Salve `seow-<slug>.md` e
+4. **Conteúdo:** uma seção por vez, só com o briefing dela (≥3 seções: um subagent `sonnet` por seção, em paralelo). Salve `seow-<slug>.md` e
    `seow-<slug>-briefings.md`; rode
-   `node <skill>/scripts/checar-texto.mjs seow-<slug>.md --briefings seow-<slug>-briefings.md`
+   `node <skill>/scripts/checar-texto.mjs seow-<slug>.md --final --briefings seow-<slug>-briefings.md`
    (a skill instala em `.claude/skills/schematize-seo-writing/` ou `~/.claude/skills/...`) e
    **corrija até exit 0**.
-5. **Entregue os 5 blocos** na ordem de `formato-saida.md` e pergunte se o usuário quer ajustes na
+5. **Entregue os 5 blocos** na ordem de `formato-saida.md` e ofereça ajustes (sem bloquear) na
    estrutura, nos briefings, no tom ou em alguma seção.
 
 Sem travessão, sem promessa genérica, dado sem fonte marcado `[CONFIRMAR]`, FAQ só visível (sem

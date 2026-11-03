@@ -3,6 +3,12 @@
 Todas as mudanças relevantes deste pacote, no formato [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 com versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
+## [Não lançado]
+### Corrigido
+- `checar-texto.mjs`: fato inventado vira ERRO por frase (número com unidade, ano, múltiplo, "N em cada M", moedas, milhões/bilhões, "segundo <Instituição>") sem link nem `[CONFIRMAR]`; `--final` reprova `[CONFIRMAR]` residual; keyword obrigatória no H1; `secundarias: [a, b]` em linha. Faixas de palavras por seção viram AVISO. Testes 29 → 38.
+- Paralelismo por seção (subagent `sonnet`), fechamento sem bloquear overdev, passo de SERP/experiência, README sem `/tmp`; título sem travessão alinhado com a `schematize-seo`.
+- Herda os pisos 22–29 da engineering (bloco curto).
+
 ## [0.2.0] — 2026-10-14
 Description reduzida para o orçamento de listagem do catálogo; sem mudança de piso.
 

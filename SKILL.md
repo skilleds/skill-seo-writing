@@ -73,9 +73,9 @@ sem keyword nem intenção é chute com aparência de método.
    padrão). Falta keyword → fronteira acima. Fatos que o texto pode afirmar vêm do usuário ou de fonte
    citada; **nada fora do briefing**.
 2. **Siga os 4 passos** de `references/processo.md`, sem pular. O passo 4 termina rodando
-   `node scripts/checar-texto.mjs artigo.md --briefings briefings.md` e **corrigindo até exit 0**.
-3. **Entregue nos 5 blocos** de `references/formato-saida.md` e **feche perguntando** se o usuário quer
-   ajustes na estrutura, nos briefings, no tom ou em alguma seção específica.
+   `node scripts/checar-texto.mjs artigo.md --briefings briefings.md` e **corrigindo até exit 0** (`--final` na entrega: `[CONFIRMAR]` residual reprova; fato sem fonte na frase é ERRO; faixas de palavras são AVISO, a régua é a intenção).
+3. **Entregue nos 5 blocos** de `references/formato-saida.md` e **feche oferecendo** ajustes (sem bloquear; em overdev nunca pergunte, parkeie) 
+    na estrutura, nos briefings, no tom ou em alguma seção específica.
 
 Mapa de references:
 
@@ -118,3 +118,6 @@ Mapa de references:
 - **`schematize-web`** — onde o texto vira página (rotas, `metadata`, i18n). Esta skill entrega markdown; o web publica.
 - **`schematize-institutional`** — quais páginas existem num site de empresa; esta skill escreve o texto de uma delas quando pedido.
 - **`schematize-docs`** — documentação técnica (README, ADR, runbook). Texto para ranquear é daqui; doc de engenharia é de lá.
+
+
+**Herda os pisos 22–29** da `schematize-engineering` (git como trava de conclusão, deploy só do git, ops é o gate da IA, sem agents inúteis, relatório 30 min/handoff 6 h, CI remoto só antes do hml, microserviço autônomo, build em dev/hml + higiene).

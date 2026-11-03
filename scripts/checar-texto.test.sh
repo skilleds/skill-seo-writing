@@ -71,10 +71,10 @@ caso bluf-estourado 1 "BLUF" < <(S1="60 70 70 70" gen)
 caso bluf-no-limite-aviso 0 "alvo BLUF" < <(S1="50 70 70 70" gen)
 
 echo "== extensão por tipo de seção =="
-caso intro-curta 1 "introdução: 150 a 220" < <(INTRO="30 30 30 30" gen)
-caso conclusao-longa 1 "conclusão: 150 a 220" < <(CONC="40 70 70 70" gen)
-caso h2-curto 1 "H2 principal: 220 a 300" < <(S2="35 35 35 35" gen)
-caso h3-curto 1 "H3: 180 a 250" < <(H3A="30 30 30 30" gen)
+caso intro-curta 0 "introdução: 150 a 220" < <(INTRO="30 30 30 30" gen)
+caso conclusao-longa 0 "conclusão: 150 a 220" < <(CONC="40 70 70 70" gen)
+caso h2-curto 0 "H2 principal: 220 a 300" < <(S2="35 35 35 35" gen)
+caso h3-curto 0 "H3: 180 a 250" < <(H3A="30 30 30 30" gen)
 
 echo "== pergunta no título =="
 caso pergunta-3-frases 1 "responder em 1 a 2" < <(TH2="O que é palavra1?" PRIM="palavra1 e isto. Segundo ponto aqui. Terceiro ponto aqui mais palavras para completar trinta palavras ao todo, sim, é isso mesmo aqui no fim." gen)
@@ -82,9 +82,19 @@ caso pergunta-1-frase 0 "" < <(TH2="O que é palavra1?" PRIM="palavra1 é a prá
 
 echo "== copy e fatos =="
 caso travessao 1 "travessão" < <(EXTRA=$'\n## Seção com travessão — proibida\n' gen)
-caso estatistica-sem-fonte 0 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 37% palavra1/')
-caso estatistica-estrito 1 "sem fonte" --estrito < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 37% palavra1/')
-caso estatistica-marcada 0 "0 aviso(s)" < <(INTRO="37 40 40 40" gen | sed '0,/^palavra0 palavra1/s//palavra0 37% [CONFIRMAR fonte] palavra1/')
+caso estatistica-sem-fonte 1 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 37% palavra1/')
+caso extensao-estrito 1 "H3: 180 a 250" --estrito < <(H3A="30 30 30 30" gen)
+caso estatistica-marcada 0 "residual" < <(INTRO="37 40 40 40" gen | sed '0,/^palavra0 palavra1/s//palavra0 37% [CONFIRMAR fonte] palavra1/')
+
+caso fato-multiplicador 1 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 3x palavra1/')
+caso fato-n-em-cada-m 1 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 2 em cada 5 palavra1/')
+caso fato-ano 1 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 em 2023 palavra1/')
+caso fato-milhoes 1 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 250 milhões palavra1/')
+caso fato-gartner 1 "sem fonte" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 segundo a Gartner palavra1/')
+caso fato-com-link 0 "0 erro(s)" < <(gen | sed '0,/^palavra0 palavra1/s//palavra0 3x ([fonte](https:\/\/exemplo.org\/x)) palavra1/')
+caso confirmar-residual-final 1 "residual" --final < <(INTRO="37 40 40 40" gen | sed '0,/^palavra0 palavra1/s//palavra0 37% [CONFIRMAR fonte] palavra1/')
+caso h1-sem-keyword 1 "ausente do H1" < <(gen | sed 's/^# palavra1 completo e simples/# outro assunto/')
+caso secundarias-inline 0 "0 erro(s)" < <(SECUND="[palavra0, palavra2, palavra3, palavra4, palavra5, palavra6]" gen)
 
 echo "== briefings =="
 n_sec=$(gen | grep -c '^#\{1,3\} ')

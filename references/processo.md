@@ -63,7 +63,9 @@ a derivação e a ausência de salto são julgamento seu, e por isso o checklist
 
 ## Passo 4 — Geração do conteúdo
 
-Escreva **uma seção por vez**, com **somente o briefing daquela seção** como contexto (não releia o
+Antes de escrever: leia a SERP do top-10 para ver o gap real e traga experiência de primeira mão, autor/data e fonte primária; volume sem isso cai no `scaled content abuse` (`schematize-seo` → `references/anti-padroes.md`).
+
+Escreva **uma seção por vez** (cada seção só vê o próprio briefing; por isso, com ≥3 seções, despache cada uma a um subagent `sonnet` em paralelo, em partições distintas, e o principal monta, roda o checador e revisa), com **somente o briefing daquela seção** como contexto (não releia o
 rascunho das outras para "ajustar o tom": é assim que a seção 5 repete a 2). Regras de extensão e de
 parágrafo em `references/regras-texto.md`.
 
@@ -78,5 +80,4 @@ Depois de escrever tudo:
 
 ## Fechamento
 
-Ao terminar qualquer execução, **pergunte** se o usuário quer ajustes na estrutura, nos briefings, no
-tom ou em alguma seção específica antes de considerar o trabalho finalizado.
+Ao terminar qualquer execução, **ofereça** ajustes na estrutura, nos briefings, no tom ou em alguma seção, sem bloquear. Em overdev perguntar é vetado: parkeie a dúvida como `[~]`.

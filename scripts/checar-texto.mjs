@@ -12,12 +12,13 @@
 import { readFileSync, existsSync } from "node:fs";
 
 const args = process.argv.slice(2);
-let arquivo = null, briefArq = null, estrito = false;
+let arquivo = null, briefArq = null, estrito = false, final = false;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--briefings") briefArq = args[++i];
   else if (args[i] === "--estrito") estrito = true;
+  else if (args[i] === "--final") final = true;
   else if (args[i] === "-h" || args[i] === "--help") {
-    console.log("uso: checar-texto.mjs <artigo.md> [--briefings <briefings.md>] [--estrito]\n0 passa · 1 reprova · 2 nada para verificar");
+    console.log("uso: checar-texto.mjs <artigo.md> [--briefings <briefings.md>] [--estrito] [--final]\n--final: [CONFIRMAR] residual vira ERRO (entrega)\n0 passa · 1 reprova · 2 nada para verificar");
     process.exit(0);
   } else if (!arquivo) arquivo = args[i];
 }
@@ -62,7 +63,7 @@ else {
   else if (!title.toLowerCase().startsWith(kw.toLowerCase())) erro("title", `keyword "${kw}" não está no início do title.`);
 }
 let sec = fm.secundarias ?? fm.secundarias_lsi ?? [];
-if (typeof sec === "string") sec = sec.split(",").map((s) => s.trim()).filter(Boolean);
+if (typeof sec === "string") sec = sec.replace(/^\[|\]$/g, "").split(",").map((s) => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
 if (sec.length < 6 || sec.length > 10) erro("keywords", `${sec.length} keywords secundárias (esperado 6 a 10).`);
 
 // ---- parse de seções (fora de fences e comentários HTML)
@@ -90,6 +91,12 @@ for (const l of corpo.split("\n")) {
 fluxo();
 
 if (h1 === 0) erro("H1", "nenhum H1 (`# ...`).");
+{
+  const kw = typeof fm.keyword === "string" ? fm.keyword.toLowerCase() : "";
+  const h1s = secoes.find((x) => x.nivel === 1);
+  if (kw && h1s && !h1s.titulo.toLowerCase().includes(kw)) erro("H1", `keyword "${fm.keyword}" ausente do H1.`);
+  if (kw && h1s && h1s.pars[0] && !h1s.pars[0].toLowerCase().includes(kw)) aviso("keywords", "keyword principal ausente do 1º parágrafo.");
+}
 if (h1 > 1) erro("H1", `${h1} H1 (deve ser único).`);
 if (secoes[0].pars.length) aviso("estrutura", "texto antes do H1 (fora do front matter) não é checado.");
 if (h4) aviso("estrutura", `${h4} heading(s) H4+ (a estrutura prevê só H1/H2/H3).`);
@@ -123,7 +130,7 @@ for (const s of checaveis) {
   corpoTodo.push(...s.pars);
   const [min, max, nome] = faixa[s.tipo];
   if (!s.pars.length) { erro(s.rotulo, "seção sem texto."); continue; }
-  if (total < min || total > max) erro(s.rotulo, `${total} palavras (${nome}: ${min} a ${max}).`);
+  if (total < min || total > max) aviso(s.rotulo, `${total} palavras (${nome}: ${min} a ${max}).`);
   if (s.pars.length < 3) erro(s.rotulo, `${s.pars.length} parágrafo(s) (mínimo 3).`);
   else if (s.pars.length > 5) aviso(s.rotulo, `${s.pars.length} parágrafos (ideal 4 a 5).`);
   w.forEach((n, i) => {
@@ -140,11 +147,25 @@ for (const s of checaveis) {
 // ---- copy da casa e fatos
 const plano = corpoTodo.join("\n");
 if (/—|\s–\s/.test(plano) || /—|\s–\s/.test(title)) erro("copy", "travessão (— ou –) em texto de usuário final (regra da casa).");
-corpoTodo.forEach((p, i) => {
-  if (/\d+(?:[.,]\d+)?\s?%|R\$\s?\d|\b(?:segundo|de acordo com)\s+(?:um\s+)?(?:estudo|pesquisa|levantamento)/i.test(p)
-      && !/\[(?:CONFIRMAR|confirmar)[^\]]*\]/.test(p) && !/\]\(https?:/.test(p))
-    aviso("fatos", `parágrafo com dado/estatística sem fonte nem marca [CONFIRMAR]: "${p.slice(0, 60)}..."`);
+// fato: número com unidade, ano, múltiplo, "N em cada M", valor/escala, ou atribuição a instituição.
+// Cada FRASE com fato precisa de [CONFIRMAR] ou link na própria frase; senão ERRO (anti-alucinação).
+const FATO = new RegExp([
+  String.raw`\d+(?:[.,]\d+)?\s?(?:%|por cento|x\b|×)`,
+  String.raw`\b(?:19|20)\d{2}\b`,
+  String.raw`\b\d+\s+em\s+cada\s+\d+`,
+  String.raw`(?:R\$|US\$|€)\s?\d`,
+  String.raw`\d+(?:[.,]\d+)?\s+(?:mil|milh(?:ão|ões)|bilh(?:ão|ões)|trilh(?:ão|ões))\b`,
+  String.raw`\b(?:segundo|de acordo com|conforme|according to)\s+(?:um\s+|o\s+|a\s+)?(?:estudo|pesquisa|levantamento|relat[óo]rio|dados|[A-ZÀ-Ý][\wÀ-ÿ]+)`,
+].join("|"), "u");
+const SEM_I = /\b(?:segundo|de acordo com|conforme)\s+(?:um\s+)?(?:estudo|pesquisa|levantamento|relat[óo]rio)/i;
+corpoTodo.forEach((p) => {
+  for (const f of p.split(/(?<=[.!?])\s+/)) {
+    if ((FATO.test(f) || SEM_I.test(f)) && !/\[(?:CONFIRMAR|confirmar)[^\]]*\]/.test(f) && !/\]\(https?:/.test(f))
+      erro("fatos", `frase com dado/estatística/atribuição sem fonte (link) nem marca [CONFIRMAR]: "${f.slice(0, 70)}..."`);
+  }
 });
+const resid = (plano.match(/\[(?:CONFIRMAR|confirmar)[^\]]*\]/g) || []).length;
+if (resid) (final ? erro : aviso)("fatos", `${resid} marca(s) [CONFIRMAR] residual(is): resolva com fonte primária antes de entregar${final ? "" : " (--final reprova)"}.`);
 const minusc = plano.toLowerCase();
 for (const k of sec) if (!minusc.includes(k.toLowerCase())) aviso("keywords", `secundária "${k}" não aparece no texto.`);
 

@@ -56,7 +56,7 @@ Um bloco `## Briefing N` por seção, na ordem do texto (introdução, depois ca
    checador, não estime), mais a saída do `checar-texto.mjs` (exit code e avisos remanescentes).
 5. **Sugestões extras:** meta description, slug, links internos, FAQs, alt text, CTA.
 
-Termine com a pergunta de ajustes (estrutura, briefings, tom ou seção específica).
+Termine oferecendo ajustes (estrutura, briefings, tom ou seção específica).
 
 ## Os 3 modos
 
